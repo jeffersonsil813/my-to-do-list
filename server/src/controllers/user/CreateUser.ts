@@ -13,21 +13,23 @@ export class CreateUser {
     });
 
     if (userAlreadyExists) {
-      return response
-        .status(400)
-        .json({ status: "Error", message: "Username already in use!" });
+      return response.status(400).json({ message: "Username already in use!" });
     }
 
     const passwordHash = await hash(password, 8);
 
-    const user = await prismaClient.user.create({
-      data: {
-        fullname,
-        username,
-        password: passwordHash,
-      },
-    });
+    try {
+      const user = await prismaClient.user.create({
+        data: {
+          fullname,
+          username,
+          password: passwordHash,
+        },
+      });
 
-    return response.status(201).json({ status: "Success", user });
+      return response.status(201).json({ user });
+    } catch (err) {
+      return response.status(400).json({ message: "Could not create user!" });
+    }
   }
 }
