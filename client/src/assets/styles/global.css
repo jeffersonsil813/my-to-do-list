@@ -39,3 +39,8 @@ body,
 ul {
   list-style: none;
 }
+
+.Toastify__toast-body {
+  font: 400 14px "Roboto", sans-serif;
+  color: var(--dark-grey);
+}

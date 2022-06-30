@@ -42,6 +42,16 @@ export class Authenticate {
       userAlreadyExists.id
     );
 
-    return response.status(200).json({ token, refreshToken });
+    return response.status(200).json({
+      token,
+      refreshToken: {
+        id: refreshToken.id,
+      },
+      user: {
+        id: userAlreadyExists.id,
+        fullname: userAlreadyExists.fullname,
+        username: userAlreadyExists.username,
+      },
+    });
   }
 }

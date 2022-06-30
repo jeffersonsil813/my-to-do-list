@@ -44,6 +44,11 @@ export class RefreshToken {
       refreshToken.userId
     );
 
-    return response.status(200).json({ token, refreshToken: newRefreshToken });
+    return response.status(200).json({
+      token,
+      refreshToken: {
+        id: newRefreshToken.id,
+      },
+    });
   }
 }

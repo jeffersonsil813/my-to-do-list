@@ -11,23 +11,24 @@ import logo from "../../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
+import { useUser } from "../../provider/user";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const { logIn } = useUser();
 
   // Functions
-  const handleLogIn = async (values: { email: string; password: string }) => {
-    // const success = await logIn(values);
-    // if (success) {
-    //   navigate("/home");
-    // }
+  const handleLogIn = async (values: {
+    username: string;
+    password: string;
+  }) => {
+    await logIn(values);
+    navigate("/home");
   };
 
   // Screma
   const screma = Yup.object().shape({
-    email: Yup.string()
-      .email("Inclua um e-mail válido")
-      .required("É necessário informar o e-mail"),
+    username: Yup.string().required("É necessário informar o nome de usuário"),
     password: Yup.string()
       .max(15, "A senha deve ter no máximo 15 caracteres")
       .required("É necessário informar a senha"),
@@ -53,7 +54,7 @@ export const Login = () => {
         <Formik
           validationSchema={screma}
           initialValues={{
-            email: "",
+            username: "",
             password: "",
           }}
           onSubmit={handleLogIn}
@@ -62,16 +63,16 @@ export const Login = () => {
             <Form>
               <FormContent>
                 <InputArea>
-                  <label htmlFor="email">E-mail</label>
+                  <label htmlFor="username">Nome de Usuário</label>
                   <Field
-                    name="email"
-                    id="email"
-                    type="email"
-                    placeholder="Digite seu e-mail..."
+                    name="username"
+                    id="username"
+                    type="text"
+                    placeholder="Digite seu nome de usuário..."
                     className="input"
                   />
-                  {errors.email && (
-                    <span className="inputErrors">{errors.email}</span>
+                  {errors.username && (
+                    <span className="inputErrors">{errors.username}</span>
                   )}
                 </InputArea>
                 <InputArea>
